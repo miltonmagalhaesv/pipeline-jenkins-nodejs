@@ -2,13 +2,6 @@ pipeline {
     agent any
  
     stages {
-        stage('Checkout') {
-            steps {
-                echo 'Buscando o coqdigo do repositório...'
-                checkout scm
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 echo ' Instalando dependências do projeto...'
