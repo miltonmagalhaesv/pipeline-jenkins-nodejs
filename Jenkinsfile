@@ -1,10 +1,18 @@
 pipeline {
     agent any
- 
+
+    enviroment {
+        PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
+    }
+    
     stages {
         stage('Install Dependencies') {
             steps {
                 echo ' Instalando dependências do projeto...'
+                sh 'which node'
+                sh 'which npm'
+                sh 'node -v'
+                sh 'npm -v'
                 sh 'npm install'
             }
         }
