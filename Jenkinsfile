@@ -5,7 +5,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo ' Instalando dependências do projeto...'
-                zsh 'npm install'
+                sh 'npm install'
             }
         }
 
