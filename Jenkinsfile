@@ -32,7 +32,7 @@ pipeline {
     }
 
     post {
-        sucess {
+        success {
             echo 'Pipeline executado com sucesso!'
         }
       
