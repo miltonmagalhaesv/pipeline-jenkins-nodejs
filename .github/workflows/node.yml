@@ -33,3 +33,13 @@ jobs:
 
       - name: Executar SAST (Semgrep)
         run: semgrep scan --config auto
+
+      - name: Iniciar aplicação
+        run: |
+          npm start &
+          sleep 10
+
+      - name: Executar DAST (OWASP ZAP)
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: "http://localhost:3000"
