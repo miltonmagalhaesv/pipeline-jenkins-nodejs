@@ -2,7 +2,11 @@ name: Pipeline NodeJS
 
 on:
   push:
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -39,20 +43,7 @@ jobs:
           npm start &
           sleep 10
 
-      - name: Executar DAST com OWASP ZAP
-        run: |
-          docker pull ghcr.io/zaproxy/zaproxy:stable
-
-          docker run --rm \
-            --network=host \
-            -v $(pwd):/zap/wrk/:rw \
-            ghcr.io/zaproxy/zaproxy:stable \
-            zap-baseline.py \
-            -t http://localhost:3000 \
-            -r zap-report.html
-
-      - name: Salvar relatório do ZAP
-        uses: actions/upload-artifact@v4
+      - name: Executar DAST
+        uses: zaproxy/action-baseline@v0.12.0
         with:
-          name: zap-report
-          path: zap-report.html
+          target: http://localhost:3000
