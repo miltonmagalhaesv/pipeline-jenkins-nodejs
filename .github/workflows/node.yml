@@ -39,8 +39,20 @@ jobs:
           npm start &
           sleep 10
 
-      - name: Executar DAST (OWASP ZAP)
-        uses: zaproxy/action-baseline@v0.12.0
+      - name: Executar DAST com OWASP ZAP
+        run: |
+          docker pull ghcr.io/zaproxy/zaproxy:stable
+
+          docker run --rm \
+            --network=host \
+            -v $(pwd):/zap/wrk/:rw \
+            ghcr.io/zaproxy/zaproxy:stable \
+            zap-baseline.py \
+            -t http://localhost:3000 \
+            -r zap-report.html
+
+      - name: Salvar relatório do ZAP
+        uses: actions/upload-artifact@v4
         with:
-          target: "http://localhost:3000"
-          allow_issue_writing: false
+          name: zap-report
+          path: zap-report.html
